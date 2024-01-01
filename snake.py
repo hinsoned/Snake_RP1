@@ -1,4 +1,5 @@
 import pygame
+import random
 
 pygame.init()
 
@@ -13,6 +14,10 @@ pygame.display.set_caption('Snake')
 #define some game vaiables
 cell_size = 10
 direction = 1 # 1 is up, 2 is right, 3 is down, 4 is left
+update_snake = 0
+food = [0, 0]
+new_food = True
+new_piece = [0,0]
 
 #create the snake
 snake_pos = [[int(screen_width/2), int(screen_height/2)]]
@@ -25,6 +30,7 @@ bg = (192, 192, 192)
 body_inner = (50, 175, 25)
 body_outer = (100, 100, 200)
 red = (255, 0, 0)
+food_col = (200, 50, 50)
 
 def draw_screen():
     screen.fill(bg)
@@ -48,20 +54,49 @@ while run:
             if event.key == pygame.K_LEFT and direction != 2:
                 direction = 4
 
-    snake_pos = snake_pos[-1:] + snake_pos[:-1]
-    #heading up
-    if direction == 1:
-        snake_pos[0][0] = snake_pos[1][0]
-        snake_pos[0][1] = snake_pos[1][1] - cell_size
-    if direction == 3:
-        snake_pos[0][0] = snake_pos[1][0]
-        snake_pos[0][1] = snake_pos[1][1] + cell_size
-    if direction == 2:
-        snake_pos[0][1] = snake_pos[1][1]
-        snake_pos[0][1] = snake_pos[1][0] - cell_size
-    if direction == 4:
-        snake_pos[0][1] = snake_pos[1][1]
-        snake_pos[0][1] = snake_pos[1][0] + cell_size
+    #create the food
+    if new_food == True:
+        new_food = False
+        food[0] = cell_size * random.randint(0, (screen_width // cell_size) - 1)
+        food[1] = cell_size * random.randint(0, (screen_height // cell_size) - 1)
+
+    #draw the food
+    pygame.draw.rect(screen, food_col, (food[0], food[1], cell_size, cell_size))
+
+    #check if food has been eaten
+    if snake_pos[0] == food:
+        new_food = True
+        #create new piece at snake tail
+        new_piece = list(snake_pos[-1])
+        if direction == 1:
+            new_piece[1] += cell_size
+        if direction == 3:
+            new_piece[1] -= cell_size
+        if direction == 2:
+            new_piece[0] -= cell_size
+        if direction == 4:
+            new_piece[0] += cell_size
+        
+        #attach new piece
+        snake_pos.append(new_piece)
+
+    #timer
+    if update_snake > 15:
+        update_snake = 0
+        snake_pos = snake_pos[-1:] + snake_pos[:-1]
+        #heading up
+        if direction == 1:
+            snake_pos[0][0] = snake_pos[1][0]
+            snake_pos[0][1] = snake_pos[1][1] - cell_size
+        if direction == 3:
+            snake_pos[0][0] = snake_pos[1][0]
+            snake_pos[0][1] = snake_pos[1][1] + cell_size
+        if direction == 2:
+            snake_pos[0][1] = snake_pos[1][1]
+            snake_pos[0][0] = snake_pos[1][0] + cell_size
+        if direction == 4:
+            snake_pos[0][1] = snake_pos[1][1]
+            snake_pos[0][0] = snake_pos[1][0] - cell_size
 
 
     #draw snake
@@ -77,6 +112,8 @@ while run:
 
     #update the display
     pygame.display.update()
+
+    update_snake += 1
 
 #end pygame
 pygame.quit
