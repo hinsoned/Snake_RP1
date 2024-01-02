@@ -51,7 +51,7 @@ while run:
 
     draw_screen()
     draw_score()
-    
+
     #event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
