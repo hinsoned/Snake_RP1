@@ -8,9 +8,8 @@
 Changes I made to the original:
 - The colors in the original were terrible so I picked a more muted background.
 - The speed of the snake on my computer was different than that in the tutorial video so I had to adjust. I do not understand why but I got the snake up to a reasonable speed.
-
+- Added a sound effect for when the snake ate the food.
+- Added one of my own songs as a music loop for the background
+- The snake speeds up with each food eaten.
 
 Changes I would like to make:
-- I would like the snake to move faster with each piece of food it eats. This should be easy.
-- I want to add sound effects for when the snake eats the food.
-- I would like to add a loop of music in the background of the game. I may use some old demo of mine for that purpose.

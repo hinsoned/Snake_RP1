@@ -24,6 +24,7 @@ new_piece = [0,0]
 score = 0
 game_over = False
 clicked = False
+snake_speed = 60
 
 #create the snake
 snake_pos = [[int(screen_width/2), int(screen_height/2)]]
@@ -118,6 +119,7 @@ while run:
     #check if food has been eaten
     if snake_pos[0] == food:
         BULLET_FIRE_SOUND.play()
+        snake_speed -= 1
         new_food = True
         #create new piece at snake tail
         new_piece = list(snake_pos[-1])
@@ -138,7 +140,7 @@ while run:
     #game over check
     if game_over == False:
         #timer
-        if update_snake > 30: #This is the speed of the snake
+        if update_snake > snake_speed: #This is the speed of the snake
             update_snake = 0
             snake_pos = snake_pos[-1:] + snake_pos[:-1]
             #heading up
@@ -173,6 +175,7 @@ while run:
                 new_piece = [0,0]
                 score = 0
                 game_over = False
+                snake_speed = 60
 
                 #create the snake
                 snake_pos = [[int(screen_width/2), int(screen_height/2)]]
