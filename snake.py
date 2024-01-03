@@ -83,6 +83,9 @@ def draw_game_over():
     screen.blit(again_img, (screen_width//2 - 80, screen_height//2 + 10))
 
 #create game loop
+pygame.mixer.music.load('Assets/SIAD M2 R5.wav')
+pygame.mixer.music.play(-1)
+
 run = True
 while run:
 
