@@ -1,8 +1,10 @@
 import pygame
 from pygame.locals import Rect
 import random
+import os
 
 pygame.init()
+pygame.mixer.init()
 
 #create dimensions for an empty game window 
 screen_width = 600
@@ -31,6 +33,9 @@ snake_pos.append([int(screen_width/2), int(screen_height/2) + cell_size * 3])
 
 #define text font
 font = pygame.font.SysFont(None, 40)
+
+#create sounds
+BULLET_FIRE_SOUND = pygame.mixer.Sound(os.path.join('Assets', 'Gun+Silencer.mp3'))
 
 #define colors
 bg = (192, 192, 192)
@@ -109,6 +114,7 @@ while run:
 
     #check if food has been eaten
     if snake_pos[0] == food:
+        BULLET_FIRE_SOUND.play()
         new_food = True
         #create new piece at snake tail
         new_piece = list(snake_pos[-1])
